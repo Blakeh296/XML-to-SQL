@@ -13,9 +13,12 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        //Declare these to be accessed by entire form
         DataSet dataSet = new DataSet();
-        //TODO:Set up connection to server
-        SqlConnection sqlConn = new SqlConnection("");
+        //SqlConnection CANNOT reference a NON STATIC STRING
+        static string connString = @"Server=PL11\MTCDEVDB; Database=ImportMockaroo;Trusted_Connection=True";
+        //Set the connection == to that of our Static String ^^^
+        SqlConnection sqlConn = new SqlConnection(connString);
 
         public Form1()
         {
@@ -41,30 +44,43 @@ namespace WindowsFormsApp1
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //TODO:THIS
-            SqlCommand sqlCommand = new SqlCommand("", );
+            //SqlCommand gets the name of the Sql Stored Procedure & the Connection to SQL
+            SqlCommand sqlCommand = new SqlCommand("InsertApplicant",sqlConn);
+            //The Command type is StoredProcedure
             sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            //TODO:THIS
             try
             {
                 if(dgvData.Rows.Count > 0)
                 {
-                    sqlConn.Open();
+                    sqlConn.Open(); //Open SqlConnection
 
-                    //TODO:THIS
+                    //For Every Row in the DATAGRIDVIEW
                     foreach(DataGridViewRow dr in dgvData.Rows)
                     {
-
+                        //Set Sql Command parameters with the SQL table and the DGV
+                        sqlCommand.Parameters.AddWithValue("@FirstName", dr.Cells["first_name"].Value);
+                        sqlCommand.Parameters.AddWithValue("@LastName", dr.Cells["last_name"].Value);
+                        sqlCommand.Parameters.AddWithValue("@SSN", dr.Cells["ssn"].Value);
+                        sqlCommand.Parameters.AddWithValue("@Email", dr.Cells["email"].Value);
+                        sqlCommand.Parameters.AddWithValue("@Gender", dr.Cells["gender"].Value);
+                        sqlCommand.Parameters.AddWithValue("@AppID",0);
+                        sqlCommand.Parameters["@AppID"].Direction = ParameterDirection.Output;
+                        sqlCommand.ExecuteNonQuery();
+                        dr.Cells["id"].Value = sqlCommand.Parameters["@AppID"].Value;
+                        //Clear for another use
+                        sqlCommand.Parameters.Clear();
                     }
                 }
             }
             catch (Exception ex)
             {
+                //Send error message to status label
                 statuslbl.Text = "Error.. :" + ex.Message;
             }
             finally
             {
+                //Close Sql connection
                 sqlConn.Close();
             }
         }
