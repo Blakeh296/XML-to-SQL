@@ -46,3 +46,8 @@ GO
 	END
 	GO
 		PRINT 'SP InsertApplicant'
+
+
+select * from Applicants
+
+		delete from Applicants

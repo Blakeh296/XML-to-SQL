@@ -38,12 +38,17 @@ namespace WindowsFormsApp1
             }
             catch (Exception ex)
             {
+                statusStrip1.BackColor = Color.Red;
                 statuslbl.Text = "Error.. :" + ex.Message;
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            string drCount = dgvData.RowCount.ToString();
+            statuslbl.ForeColor = Color.Black;
+            statuslbl.ForeColor = Color.FromName("Control");
+            statuslbl.Text = "Starting SQL Push";
             //SqlCommand gets the name of the Sql Stored Procedure & the Connection to SQL
             SqlCommand sqlCommand = new SqlCommand("InsertApplicant",sqlConn);
             //The Command type is StoredProcedure
@@ -64,19 +69,22 @@ namespace WindowsFormsApp1
                         sqlCommand.Parameters.AddWithValue("@SSN", dr.Cells["ssn"].Value);
                         sqlCommand.Parameters.AddWithValue("@Email", dr.Cells["email"].Value);
                         sqlCommand.Parameters.AddWithValue("@Gender", dr.Cells["gender"].Value);
-                        sqlCommand.Parameters.AddWithValue("@AppID",0);
+                        sqlCommand.Parameters.AddWithValue("@AppID", 0);
                         sqlCommand.Parameters["@AppID"].Direction = ParameterDirection.Output;
                         sqlCommand.ExecuteNonQuery();
                         dr.Cells["id"].Value = sqlCommand.Parameters["@AppID"].Value;
                         //Clear for another use
                         sqlCommand.Parameters.Clear();
+                        statusStrip1.BackColor = Color.Green;
+                        statuslbl.Text = dr.Cells.Count.ToString() + " Rows pushed to SQL";
                     }
                 }
             }
             catch (Exception ex)
             {
                 //Send error message to status label
-                statuslbl.Text = "Error.. :" + ex.Message;
+                statusStrip1.BackColor = Color.Green;
+                statuslbl.Text = drCount + " Rows pushed to SQL";
             }
             finally
             {
