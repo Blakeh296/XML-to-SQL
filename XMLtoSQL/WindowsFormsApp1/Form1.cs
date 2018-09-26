@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using WindowsFormsApp1.AdventureWorksDsTableAdapters;
-using WindowsFormsApp1.TestDbTableAdapters;
+using WindowsFormsApp1.AdventureWorksDsTableAdapters; //You need this to access DataAdapteres
+using WindowsFormsApp1.TestDbTableAdapters;             //You need this to access DataAdapters
 
 namespace WindowsFormsApp1
 {
@@ -22,6 +22,12 @@ namespace WindowsFormsApp1
 
         TestDb.ApplicantsDataTable applicantsTable = new TestDb.ApplicantsDataTable();
         ApplicantsTableAdapter ApplicantsTblAdapter = new ApplicantsTableAdapter();
+
+        AdventureWorksDs.EmailAddressDataTable emailAddresses = new AdventureWorksDs.EmailAddressDataTable();
+        EmailAddressTableAdapter emailAdapter = new EmailAddressTableAdapter();
+
+        AdventureWorksDs.StateProvinceDataTable stateProvinceTbl = new AdventureWorksDs.StateProvinceDataTable();
+        StateProvinceTableAdapter stateProvinceDataAdapter = new StateProvinceTableAdapter();
 
         //Declare these to be accessed by entire form
         DataSet dataSet = new DataSet();
@@ -98,6 +104,18 @@ namespace WindowsFormsApp1
                     statusStrip1.BackColor = Color.Green;
                     statuslbl.Text = "Person.Person Updated To Database";
                 }
+                else if (cbDataBase.Text == emailAddresses.TableName)
+                {
+                    emailAdapter.Update(emailAddresses);
+                    statusStrip1.BackColor = Color.Green;
+                    statuslbl.Text = "Person.EmailAddress Updated To Database";
+                }
+                else if (cbDataBase.Text == stateProvinceTbl.TableName)
+                {
+                    stateProvinceDataAdapter.Update(stateProvinceTbl);
+                    statusStrip1.BackColor = Color.Green;
+                    statuslbl.Text = "Person.StateProvince Updated To Database";
+                }
             }
             catch (Exception ex)
             {
@@ -139,6 +157,8 @@ namespace WindowsFormsApp1
             //Add the tables to the ComboBox
             cbDataBase.Items.Add(personPerson.TableName);
             cbDataBase.Items.Add(applicantsTable.TableName);
+            cbDataBase.Items.Add(emailAddresses.TableName);
+            cbDataBase.Items.Add(stateProvinceTbl.TableName);
             //Set a default Table
             cbDataBase.Text = personPerson.TableName;
         }
@@ -161,6 +181,18 @@ namespace WindowsFormsApp1
                 DataTable personTbl = personPerson;
                 //Set the DGV Datasource equal to that of our new table
                 dgvData.DataSource = personPerson;
+            }
+            else if (cbDataBase.Text == emailAddresses.TableName)
+            {
+                emailAdapter.Fill(emailAddresses);
+                DataTable EmailTbl = emailAddresses;
+                dgvData.DataSource = emailAddresses;
+            }
+            else if (cbDataBase.Text == stateProvinceTbl.TableName)
+            {
+                stateProvinceDataAdapter.Fill(stateProvinceTbl);
+                DataTable StateProv = stateProvinceTbl;
+                dgvData.DataSource = stateProvinceTbl;
             }
         }
     }
