@@ -15,7 +15,9 @@ namespace WindowsFormsApp1
 {
     public partial class form1 : Form
     {
+        //Declare My custom DataSet, then the table -- Leave it blank for now
         AdventureWorksDs.PersonDataTable personPerson = new AdventureWorksDs.PersonDataTable();
+        //Declare the custom DataAdapter assosiated to the table
         PersonTableAdapter personTblAdapter = new PersonTableAdapter();
 
         TestDb.ApplicantsDataTable applicantsTable = new TestDb.ApplicantsDataTable();
