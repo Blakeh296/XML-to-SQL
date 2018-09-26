@@ -48,7 +48,6 @@ namespace WindowsFormsApp1
                 if (ofdXML.ShowDialog() == DialogResult.OK)
                 {
                     dataSet.ReadXml(ofdXML.FileName);
-                    dataSet.Tables[0].Columns.Add("id");
                     dgvData.DataSource = dataSet.Tables[0];
                 }
             }
@@ -91,11 +90,13 @@ namespace WindowsFormsApp1
                             sqlCommand.Parameters["@AppID"].Direction = ParameterDirection.Output;
                             sqlCommand.ExecuteNonQuery();
                             dr.Cells["id"].Value = sqlCommand.Parameters["@AppID"].Value;
-                            //Clear for another use
-                            sqlCommand.Parameters.Clear();
-                            statusStrip1.BackColor = Color.Green;
-                            statuslbl.Text = dr.Cells.Count.ToString() + " Rows pushed to SQL";
+                           
                         }
+
+                        //Clear for another use
+                        sqlCommand.Parameters.Clear();
+                        statusStrip1.BackColor = Color.Green;
+                        statuslbl.Text = drCount + " Rows pushed to SQL";
                     }
                 }
                 else if (cbDataBase.Text == personPerson.TableName)
