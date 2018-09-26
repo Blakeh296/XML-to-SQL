@@ -8,11 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using WindowsFormsApp1.AdventureWorksDsTableAdapters;
+using WindowsFormsApp1.TestDbTableAdapters;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class form1 : Form
     {
+        AdventureWorksDs.PersonDataTable personPerson = new AdventureWorksDs.PersonDataTable();
+        PersonTableAdapter personTblAdapter = new PersonTableAdapter();
+
+        TestDb.ApplicantsDataTable applicantsTable = new TestDb.ApplicantsDataTable();
+        ApplicantsTableAdapter ApplicantsTblAdapter = new ApplicantsTableAdapter();
+
         //Declare these to be accessed by entire form
         DataSet dataSet = new DataSet();
         //SqlConnection CANNOT reference a NON STATIC STRING
@@ -20,7 +28,7 @@ namespace WindowsFormsApp1
         //Set the connection == to that of our Static String ^^^
         SqlConnection sqlConn = new SqlConnection(connString);
 
-        public Form1()
+        public form1()
         {
             InitializeComponent();
         }
@@ -56,40 +64,101 @@ namespace WindowsFormsApp1
 
             try
             {
-                if(dgvData.Rows.Count > 0)
+                if(cbDataBase.Text == applicantsTable.TableName)
                 {
-                    sqlConn.Open(); //Open SqlConnection
-
-                    //For Every Row in the DATAGRIDVIEW
-                    foreach(DataGridViewRow dr in dgvData.Rows)
+                    if (dgvData.Rows.Count > 0)
                     {
-                        //Set Sql Command parameters with the SQL table and the DGV
-                        sqlCommand.Parameters.AddWithValue("@FirstName", dr.Cells["first_name"].Value);
-                        sqlCommand.Parameters.AddWithValue("@LastName", dr.Cells["last_name"].Value);
-                        sqlCommand.Parameters.AddWithValue("@SSN", dr.Cells["ssn"].Value);
-                        sqlCommand.Parameters.AddWithValue("@Email", dr.Cells["email"].Value);
-                        sqlCommand.Parameters.AddWithValue("@Gender", dr.Cells["gender"].Value);
-                        sqlCommand.Parameters.AddWithValue("@AppID", 0);
-                        sqlCommand.Parameters["@AppID"].Direction = ParameterDirection.Output;
-                        sqlCommand.ExecuteNonQuery();
-                        dr.Cells["id"].Value = sqlCommand.Parameters["@AppID"].Value;
-                        //Clear for another use
-                        sqlCommand.Parameters.Clear();
-                        statusStrip1.BackColor = Color.Green;
-                        statuslbl.Text = dr.Cells.Count.ToString() + " Rows pushed to SQL";
+                        sqlConn.Open(); //Open SqlConnection
+
+                        //For Every Row in the DATAGRIDVIEW
+                        foreach (DataGridViewRow dr in dgvData.Rows)
+                        {
+                            //Set Sql Command parameters with the SQL table and the DGV
+                            sqlCommand.Parameters.AddWithValue("@FirstName", dr.Cells["first_name"].Value);
+                            sqlCommand.Parameters.AddWithValue("@LastName", dr.Cells["last_name"].Value);
+                            sqlCommand.Parameters.AddWithValue("@SSN", dr.Cells["ssn"].Value);
+                            sqlCommand.Parameters.AddWithValue("@Email", dr.Cells["email"].Value);
+                            sqlCommand.Parameters.AddWithValue("@Gender", dr.Cells["gender"].Value);
+                            sqlCommand.Parameters.AddWithValue("@AppID", 0);
+                            sqlCommand.Parameters["@AppID"].Direction = ParameterDirection.Output;
+                            sqlCommand.ExecuteNonQuery();
+                            dr.Cells["id"].Value = sqlCommand.Parameters["@AppID"].Value;
+                            //Clear for another use
+                            sqlCommand.Parameters.Clear();
+                            statusStrip1.BackColor = Color.Green;
+                            statuslbl.Text = dr.Cells.Count.ToString() + " Rows pushed to SQL";
+                        }
                     }
+                }
+                else if (cbDataBase.Text == personPerson.TableName)
+                {
+                    personTblAdapter.Update(personPerson);
+                    statusStrip1.BackColor = Color.Green;
+                    statuslbl.Text = "Person.Person Updated To Database";
                 }
             }
             catch (Exception ex)
             {
                 //Send error message to status label
                 statusStrip1.BackColor = Color.Green;
-                statuslbl.Text = drCount + " Rows pushed to SQL";
+                statuslbl.Text = drCount + " Rows Pushed To SQL DB";
             }
             finally
             {
                 //Close Sql connection
                 sqlConn.Close();
+            }
+        }
+
+
+
+        private void btnAddBlankRow_Click(object sender, EventArgs e)
+        {
+            //Create a Person Row from My Customer AdventureWorksDs
+            AdventureWorksDs.PersonRow newRow = personPerson.NewPersonRow();
+            //Give the NewRow some place holder data
+            newRow.FirstName = "PLACE HOLDER";
+            newRow.LastName = "PLACE HOLDER";
+            //Add a new row to the PersonPerson Tbl, & make it our custom row from above
+            personPerson.AddPersonRow(newRow);
+            //Refresh the DataGridView
+            dgvData.Refresh();
+        }
+
+        private void form1_Load(object sender, EventArgs e)
+        {
+            //Fill Our Data Adapter with the Entire Person.Person Table
+            personTblAdapter.Fill(personPerson);
+            //Declare a dataTable and use Polymorphism to make it 
+            //Equal our Person.Person Tbl
+            DataTable dfaultTbl = personPerson;
+            //Set the DGV Datasource equal to that of our new table
+            dgvData.DataSource = personPerson;
+            //Add the tables to the ComboBox
+            cbDataBase.Items.Add(personPerson.TableName);
+            cbDataBase.Items.Add(applicantsTable.TableName);
+            //Set a default Table
+            cbDataBase.Text = personPerson.TableName;
+        }
+
+        private void cbDataBase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbDataBase.Text == applicantsTable.TableName)
+            {
+                //Fill the DataAdapter with the Applicants Table
+                ApplicantsTblAdapter.Fill(applicantsTable);
+                DataTable applicants = applicantsTable;
+                dgvData.DataSource = applicantsTable;
+            }
+            else if (cbDataBase.Text == personPerson.TableName)
+            {
+                //Fill Our Data Adapter with the Entire Person.Person Table
+                personTblAdapter.Fill(personPerson);
+                //Declare a dataTable and use Polymorphism to make it 
+                //Equal our Person.Person Tbl
+                DataTable personTbl = personPerson;
+                //Set the DGV Datasource equal to that of our new table
+                dgvData.DataSource = personPerson;
             }
         }
     }
