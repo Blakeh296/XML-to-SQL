@@ -35,9 +35,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statuslbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ofdXML = new System.Windows.Forms.OpenFileDialog();
-            this.btnAddBlankRow = new System.Windows.Forms.Button();
             this.cbDataBase = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +51,7 @@
             this.dgvData.Location = new System.Drawing.Point(16, 41);
             this.dgvData.Margin = new System.Windows.Forms.Padding(4);
             this.dgvData.Name = "dgvData";
-            this.dgvData.Size = new System.Drawing.Size(478, 260);
+            this.dgvData.Size = new System.Drawing.Size(478, 239);
             this.dgvData.TabIndex = 0;
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             // 
@@ -100,22 +100,11 @@
             this.ofdXML.FileName = "openFileDialog1";
             this.ofdXML.Filter = "XML Files|*.xml";
             // 
-            // btnAddBlankRow
-            // 
-            this.btnAddBlankRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddBlankRow.Location = new System.Drawing.Point(124, 318);
-            this.btnAddBlankRow.Name = "btnAddBlankRow";
-            this.btnAddBlankRow.Size = new System.Drawing.Size(130, 28);
-            this.btnAddBlankRow.TabIndex = 5;
-            this.btnAddBlankRow.Text = "Add Blank Row";
-            this.btnAddBlankRow.UseVisualStyleBackColor = true;
-            this.btnAddBlankRow.Click += new System.EventHandler(this.btnAddBlankRow_Click);
-            // 
             // cbDataBase
             // 
             this.cbDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbDataBase.FormattingEnabled = true;
-            this.cbDataBase.Location = new System.Drawing.Point(373, 10);
+            this.cbDataBase.Location = new System.Drawing.Point(373, 8);
             this.cbDataBase.Name = "cbDataBase";
             this.cbDataBase.Size = new System.Drawing.Size(121, 24);
             this.cbDataBase.TabIndex = 6;
@@ -125,20 +114,31 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(260, 321);
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(17, 287);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(127, 22);
+            this.textBox1.Size = new System.Drawing.Size(477, 24);
             this.textBox1.TabIndex = 7;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(270, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 16);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Database Tbl :";
             // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 385);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.cbDataBase);
-            this.Controls.Add(this.btnAddBlankRow);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnLoad);
@@ -165,9 +165,9 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statuslbl;
         private System.Windows.Forms.OpenFileDialog ofdXML;
-        private System.Windows.Forms.Button btnAddBlankRow;
         private System.Windows.Forms.ComboBox cbDataBase;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

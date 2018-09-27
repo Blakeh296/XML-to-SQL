@@ -131,21 +131,6 @@ namespace WindowsFormsApp1
             }
         }
 
-
-
-        private void btnAddBlankRow_Click(object sender, EventArgs e)
-        {
-            //Create a Person Row from My Customer AdventureWorksDs
-            AdventureWorksDs.PersonRow newRow = personPerson.NewPersonRow();
-            //Give the NewRow some place holder data
-            newRow.FirstName = "PLACE HOLDER";
-            newRow.LastName = "PLACE HOLDER";
-            //Add a new row to the PersonPerson Tbl, & make it our custom row from above
-            personPerson.AddPersonRow(newRow);
-            //Refresh the DataGridView
-            dgvData.Refresh();
-        }
-
         private void form1_Load(object sender, EventArgs e)
         {
             //Fill Our Data Adapter with the Entire Person.Person Table
@@ -208,6 +193,11 @@ namespace WindowsFormsApp1
         private void dgvData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             textBox1.Text = dgvData.CurrentCell.Value.ToString();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            dgvData.CurrentCell.Value = textBox1.Text;
         }
     }
 }
