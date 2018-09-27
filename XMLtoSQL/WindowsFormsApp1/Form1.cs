@@ -172,6 +172,8 @@ namespace WindowsFormsApp1
                 ApplicantsTblAdapter.Fill(applicantsTable);
                 DataTable applicants = applicantsTable;
                 dgvData.DataSource = applicantsTable;
+                string drCount = dgvData.RowCount.ToString();
+                statuslbl.Text = drCount.ToString() + " Rows loaded from " + applicantsTable.TableName + " Tbl.";
             }
             else if (cbDataBase.Text == personPerson.TableName)
             {
@@ -182,19 +184,30 @@ namespace WindowsFormsApp1
                 DataTable personTbl = personPerson;
                 //Set the DGV Datasource equal to that of our new table
                 dgvData.DataSource = personPerson;
+                string drCount = dgvData.RowCount.ToString();
+                statuslbl.Text = drCount.ToString() + " Rows loaded from " + personPerson.TableName + " Tbl.";
             }
             else if (cbDataBase.Text == emailAddresses.TableName)
             {
                 emailAdapter.Fill(emailAddresses);
                 DataTable EmailTbl = emailAddresses;
                 dgvData.DataSource = emailAddresses;
+                string drCount = dgvData.RowCount.ToString();
+                statuslbl.Text = drCount.ToString() + " Rows loaded from " + emailAddresses.TableName + " Tbl.";
             }
             else if (cbDataBase.Text == stateProvinceTbl.TableName)
             {
                 stateProvinceDataAdapter.Fill(stateProvinceTbl);
                 DataTable StateProv = stateProvinceTbl;
                 dgvData.DataSource = stateProvinceTbl;
+                string drCount = dgvData.RowCount.ToString();
+                statuslbl.Text = drCount.ToString() + " Rows loaded from " + stateProvinceTbl.TableName + " Tbl.";
             }
+        }
+
+        private void dgvData_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox1.Text = dgvData.CurrentCell.Value.ToString();
         }
     }
 }

@@ -37,6 +37,7 @@
             this.ofdXML = new System.Windows.Forms.OpenFileDialog();
             this.btnAddBlankRow = new System.Windows.Forms.Button();
             this.cbDataBase = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +53,7 @@
             this.dgvData.Name = "dgvData";
             this.dgvData.Size = new System.Drawing.Size(478, 260);
             this.dgvData.TabIndex = 0;
+            this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             // 
             // btnLoad
             // 
@@ -100,8 +102,8 @@
             // 
             // btnAddBlankRow
             // 
-            this.btnAddBlankRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddBlankRow.Location = new System.Drawing.Point(257, 318);
+            this.btnAddBlankRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddBlankRow.Location = new System.Drawing.Point(124, 318);
             this.btnAddBlankRow.Name = "btnAddBlankRow";
             this.btnAddBlankRow.Size = new System.Drawing.Size(130, 28);
             this.btnAddBlankRow.TabIndex = 5;
@@ -119,11 +121,22 @@
             this.cbDataBase.TabIndex = 6;
             this.cbDataBase.SelectedIndexChanged += new System.EventHandler(this.cbDataBase_SelectedIndexChanged);
             // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(260, 321);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(127, 22);
+            this.textBox1.TabIndex = 7;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 385);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.cbDataBase);
             this.Controls.Add(this.btnAddBlankRow);
             this.Controls.Add(this.statusStrip1);
@@ -154,6 +167,7 @@
         private System.Windows.Forms.OpenFileDialog ofdXML;
         private System.Windows.Forms.Button btnAddBlankRow;
         private System.Windows.Forms.ComboBox cbDataBase;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
