@@ -65,8 +65,10 @@
             this.dgvData.Name = "dgvData";
             this.dgvData.Size = new System.Drawing.Size(478, 220);
             this.dgvData.TabIndex = 0;
+            this.dgvData.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvData_CellBeginEdit);
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvData.CurrentCellChanged += new System.EventHandler(this.dgvData_CurrentCellChanged);
+            this.dgvData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvData_RowsRemoved);
             // 
             // btnLoad
             // 

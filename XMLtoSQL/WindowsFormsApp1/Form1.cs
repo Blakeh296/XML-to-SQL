@@ -184,11 +184,13 @@ namespace WindowsFormsApp1
         private void dgvData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             textBox1.Text = dgvData.CurrentCell.Value.ToString();
+            statuslbl.Text = "Selected Element : " + dgvData.CurrentCell.Value.ToString();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             dgvData.CurrentCell.Value = textBox1.Text;
+            statuslbl.Text = "Editing Element : " + dgvData.CurrentCell.Value.ToString();
         }
 
         private void dgvData_CurrentCellChanged(object sender, EventArgs e)
@@ -196,10 +198,19 @@ namespace WindowsFormsApp1
             try
             {
                 textBox1.Text = dgvData.CurrentCell.Value.ToString();
+                statuslbl.Text = "Selected Element : " + dgvData.CurrentCell.Value.ToString();
             }
             catch (Exception ex)
             {
                 statuslbl.Text = ex.Message;
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                dgvData.Focus();
             }
         }
 
@@ -298,14 +309,14 @@ namespace WindowsFormsApp1
             label1.Text = EmployeeDepartmentHistoryTBL.TableName;
         }
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private void dgvData_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            if (e.KeyCode == Keys.Tab)
-            {
-                dgvData.Focus();
-            }
+            statuslbl.Text = "Rows Removed";
         }
 
-
+        private void dgvData_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            statuslbl.Text = "Editing Element : " + dgvData.CurrentCell.Value.ToString();
+        }
     }
 }
